@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -12,6 +15,10 @@ const Header = () => {
     }
   };
 
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
   return (
     <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,29 +35,50 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
+            {location.pathname === '/' ? (
+              <>
+                <button
+                  onClick={() => scrollToSection('features')}
+                  className="text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                  Features
+                </button>
+                <button
+                  onClick={() => scrollToSection('how-it-works')}
+                  className="text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                  How It Works
+                </button>
+                <button
+                  onClick={() => scrollToSection('pricing')}
+                  className="text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                  Pricing
+                </button>
+                <button
+                  onClick={() => scrollToSection('about')}
+                  className="text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                  About
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => handleNavigation('/')}
+                className="text-gray-600 hover:text-blue-600 transition-colors"
+              >
+                Home
+              </button>
+            )}
             <button
-              onClick={() => scrollToSection('features')}
-              className="text-gray-600 hover:text-blue-600 transition-colors"
+              onClick={() => handleNavigation('/onboarding')}
+              className={`transition-colors font-medium ${
+                location.pathname === '/onboarding'
+                  ? 'text-blue-600'
+                  : 'text-gray-600 hover:text-blue-600'
+              }`}
             >
-              Features
-            </button>
-            <button
-              onClick={() => scrollToSection('how-it-works')}
-              className="text-gray-600 hover:text-blue-600 transition-colors"
-            >
-              How It Works
-            </button>
-            <button
-              onClick={() => scrollToSection('pricing')}
-              className="text-gray-600 hover:text-blue-600 transition-colors"
-            >
-              Pricing
-            </button>
-            <button
-              onClick={() => scrollToSection('about')}
-              className="text-gray-600 hover:text-blue-600 transition-colors"
-            >
-              About
+              Onboarding
             </button>
           </nav>
 
@@ -63,7 +91,7 @@ const Header = () => {
               Request Demo
             </button>
             <button
-              onClick={() => scrollToSection('contact')}
+              onClick={() => handleNavigation('/onboarding')}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
               Start Free Trial
@@ -83,29 +111,50 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200">
             <div className="flex flex-col space-y-4">
+              {location.pathname === '/' ? (
+                <>
+                  <button
+                    onClick={() => scrollToSection('features')}
+                    className="text-gray-600 hover:text-blue-600 transition-colors text-left"
+                  >
+                    Features
+                  </button>
+                  <button
+                    onClick={() => scrollToSection('how-it-works')}
+                    className="text-gray-600 hover:text-blue-600 transition-colors text-left"
+                  >
+                    How It Works
+                  </button>
+                  <button
+                    onClick={() => scrollToSection('pricing')}
+                    className="text-gray-600 hover:text-blue-600 transition-colors text-left"
+                  >
+                    Pricing
+                  </button>
+                  <button
+                    onClick={() => scrollToSection('about')}
+                    className="text-gray-600 hover:text-blue-600 transition-colors text-left"
+                  >
+                    About
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => handleNavigation('/')}
+                  className="text-gray-600 hover:text-blue-600 transition-colors text-left"
+                >
+                  Home
+                </button>
+              )}
               <button
-                onClick={() => scrollToSection('features')}
-                className="text-gray-600 hover:text-blue-600 transition-colors text-left"
+                onClick={() => handleNavigation('/onboarding')}
+                className={`transition-colors text-left font-medium ${
+                  location.pathname === '/onboarding'
+                    ? 'text-blue-600'
+                    : 'text-gray-600 hover:text-blue-600'
+                }`}
               >
-                Features
-              </button>
-              <button
-                onClick={() => scrollToSection('how-it-works')}
-                className="text-gray-600 hover:text-blue-600 transition-colors text-left"
-              >
-                How It Works
-              </button>
-              <button
-                onClick={() => scrollToSection('pricing')}
-                className="text-gray-600 hover:text-blue-600 transition-colors text-left"
-              >
-                Pricing
-              </button>
-              <button
-                onClick={() => scrollToSection('about')}
-                className="text-gray-600 hover:text-blue-600 transition-colors text-left"
-              >
-                About
+                Onboarding
               </button>
               <div className="flex flex-col space-y-3 pt-4 border-t border-gray-200">
                 <button
@@ -115,7 +164,7 @@ const Header = () => {
                   Request Demo
                 </button>
                 <button
-                  onClick={() => scrollToSection('contact')}
+                  onClick={() => handleNavigation('/onboarding')}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium text-center"
                 >
                   Start Free Trial
