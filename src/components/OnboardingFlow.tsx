@@ -369,73 +369,92 @@ const OnboardingFlow = () => {
                       </div>
                     </div>
 
-                    {/* Security Notice */}
+                    {/* Enterprise Security Notice */}
                     <div className="mt-6 p-4 bg-blue-600/10 border border-blue-500/30 rounded-lg">
                       <div className="flex items-start space-x-3">
                         <Shield className="h-5 w-5 text-blue-400 mt-0.5 flex-shrink-0" />
                         <div>
-                          <h4 className="text-blue-300 font-medium">Bank-Level Security</h4>
+                          <h4 className="text-blue-300 font-medium">Enterprise-Grade Security</h4>
                           <p className="text-gray-400 text-sm mt-1">
-                            Your banking information is encrypted and secured using 256-bit SSL encryption.
-                            We partner with Dwolla for secure ACH processing.
+                            Secure enterprise ACH processing with 256-bit SSL encryption and SOC 2 compliance.
+                            We partner with Dwolla for bank-level security and enterprise financial infrastructure.
                           </p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* ACH Subscription Plan */}
+                  {/* Enterprise ACH Subscription Plan */}
                   <div className="mb-8">
                     <h3 className="text-lg font-bold text-white mb-4">
                       <Terminal className="inline h-4 w-4 mr-2" />
-                      ACH Subscription Plan
+                      Enterprise ACH Subscription
                     </h3>
                     <div className="bg-gradient-to-r from-blue-600/10 to-cyan-400/10 border border-blue-500/30 rounded-lg p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h4 className="text-lg font-bold text-white">Monthly Subscription via ACH Transfer</h4>
-                          <p className="text-gray-400">Full access to AI pricing engine and all features</p>
+                        <div className="flex-1">
+                          <h4 className="text-xl font-bold text-white mb-2">Enterprise-Grade AI Pricing Platform</h4>
+                          <p className="text-gray-300 mb-2">Investment in AI-powered efficiency that pays for itself</p>
+                          <p className="text-cyan-400 text-sm font-mono">✓ Typical ROI within 60 days</p>
                         </div>
-                        <div className="text-right">
-                          <div className="text-3xl font-bold text-white">$299</div>
+                        <div className="text-right ml-6">
+                          <div className="text-4xl font-bold text-white">$2,000</div>
                           <div className="text-gray-400 font-mono text-sm">/month</div>
+                          <div className="text-xs text-gray-500 mt-1">via ACH transfer</div>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between text-sm">
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center text-green-400">
-                            <Check className="h-4 w-4 mr-1" />
-                            <span>Lower processing fees with bank account</span>
+
+                      <div className="border-t border-gray-600/50 pt-4 mt-4">
+                        <div className="grid md:grid-cols-2 gap-4 text-sm">
+                          <div className="space-y-2">
+                            <div className="flex items-center text-green-400">
+                              <Check className="h-4 w-4 mr-2 flex-shrink-0" />
+                              <span>Replace manual quoting processes</span>
+                            </div>
+                            <div className="flex items-center text-green-400">
+                              <Check className="h-4 w-4 mr-2 flex-shrink-0" />
+                              <span>Scale your pricing intelligence</span>
+                            </div>
+                            <div className="flex items-center text-green-400">
+                              <Check className="h-4 w-4 mr-2 flex-shrink-0" />
+                              <span>AI that pays for itself</span>
+                            </div>
                           </div>
-                          <div className="flex items-center text-yellow-400">
-                            <Clock className="h-4 w-4 mr-1" />
-                            <span>3-5 business days processing</span>
+                          <div className="space-y-2">
+                            <div className="flex items-center text-cyan-400">
+                              <Clock className="h-4 w-4 mr-2 flex-shrink-0" />
+                              <span>3-5 business days processing</span>
+                            </div>
+                            <div className="flex items-center text-yellow-400">
+                              <Terminal className="h-4 w-4 mr-2 flex-shrink-0" />
+                              <span>Save thousands vs traditional methods</span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Bank Verification Options */}
+                  {/* Enterprise Bank Verification */}
                   <div className="mb-8">
                     <h3 className="text-lg font-bold text-white mb-4">
                       <Shield className="inline h-4 w-4 mr-2" />
-                      Account Verification
+                      Enterprise Account Verification
                     </h3>
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="bg-gray-700/30 border border-gray-600 rounded-lg p-4">
-                        <h4 className="font-medium text-white mb-2">Instant Verification</h4>
+                        <h4 className="font-medium text-white mb-2">Instant Enterprise Verification</h4>
                         <p className="text-gray-400 text-sm mb-3">
-                          Connect securely through your online banking (when available)
+                          Secure enterprise banking integration with real-time verification
                         </p>
-                        <div className="text-cyan-400 text-sm font-mono">Coming Soon</div>
+                        <div className="text-cyan-400 text-sm font-mono">Enterprise Feature</div>
                       </div>
                       <div className="bg-gray-700/30 border border-gray-600 rounded-lg p-4">
-                        <h4 className="font-medium text-white mb-2">Micro-deposit Verification</h4>
+                        <h4 className="font-medium text-white mb-2">Secure Micro-deposit Verification</h4>
                         <p className="text-gray-400 text-sm mb-3">
-                          We'll send small deposits (1-2 business days) for verification
+                          Enterprise-grade verification with encrypted micro-deposits (1-2 business days)
                         </p>
-                        <div className="text-green-400 text-sm font-mono">Standard Method</div>
+                        <div className="text-green-400 text-sm font-mono">Standard Enterprise Method</div>
                       </div>
                     </div>
                   </div>
