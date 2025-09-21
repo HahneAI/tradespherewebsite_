@@ -41,6 +41,8 @@ const OnboardingFlow = () => {
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [paymentProcessed, setPaymentProcessed] = useState(false);
+  const [, setCustomerData] = useState<{customerId?: string, fundingSourceUrl?: string} | null>(null);
+  const [error, setError] = useState<string>('');
 
   const demoTabs = [
     { id: 'ai-pricing', label: 'AI Pricing Engine', icon: Terminal },
@@ -112,16 +114,73 @@ const OnboardingFlow = () => {
       if (!validateForm()) return;
 
       setIsLoading(true);
-      // Simulate payment processing
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      setIsLoading(false);
-      setPaymentProcessed(true);
+      setError('');
 
-      // After 2 seconds, move to next step
-      setTimeout(() => {
-        setCurrentStep(4);
-        setPaymentProcessed(false);
-      }, 2000);
+      try {
+        // Step 1: Create Dwolla customer and bank account
+        const customerResponse = await fetch('/api/create-dwolla-customer', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            companyEmail: formData.companyEmail,
+            companyName: formData.companyName,
+            routingNumber: formData.routingNumber,
+            accountNumber: formData.accountNumber,
+            accountType: formData.accountType,
+            accountHolderName: formData.accountHolderName
+          })
+        });
+
+        if (!customerResponse.ok) {
+          const errorData = await customerResponse.json();
+          throw new Error(errorData.message || 'Failed to create customer');
+        }
+
+        const customerData = await customerResponse.json();
+        setCustomerData({
+          customerId: customerData.customerId,
+          fundingSourceUrl: customerData.fundingSourceUrl
+        });
+
+        // Step 2: Process payment
+        const paymentResponse = await fetch('/api/process-payment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            customerId: customerData.customerId,
+            customerFundingSourceUrl: customerData.fundingSourceUrl,
+            amount: 2000,
+            companyEmail: formData.companyEmail,
+            companyName: formData.companyName
+          })
+        });
+
+        if (!paymentResponse.ok) {
+          const errorData = await paymentResponse.json();
+          throw new Error(errorData.message || 'Failed to process payment');
+        }
+
+        await paymentResponse.json();
+
+        setIsLoading(false);
+        setPaymentProcessed(true);
+
+        // Note: Company creation will be triggered by the webhook when payment completes
+        // For now, show success and redirect to next step
+        setTimeout(() => {
+          setCurrentStep(4);
+          setPaymentProcessed(false);
+        }, 3000);
+
+      } catch (error) {
+        console.error('Payment processing error:', error);
+        setError(error instanceof Error ? error.message : 'An unexpected error occurred');
+        setIsLoading(false);
+      }
     } else {
       setCurrentStep(prev => prev + 1);
     }
@@ -221,13 +280,26 @@ const OnboardingFlow = () => {
 
             {/* Payment Form */}
             <div className="bg-gray-800/30 rounded-2xl border border-gray-700/50 p-8 md:p-12">
+              {error && (
+                <div className="mb-6 p-4 bg-red-600/10 border border-red-500/30 rounded-lg">
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="h-4 w-4 text-red-400" />
+                    <span className="text-red-400 font-mono text-sm">ERROR</span>
+                  </div>
+                  <p className="text-red-300 mt-2">{error}</p>
+                </div>
+              )}
+
               {paymentProcessed ? (
                 <div className="text-center py-12">
                   <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Check className="h-10 w-10 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">ACH Payment Setup Complete</h3>
-                  <p className="text-green-400 font-mono">Bank account verified and ready...</p>
+                  <h3 className="text-2xl font-bold text-white mb-4">ACH Payment Initiated</h3>
+                  <p className="text-green-400 font-mono">Processing payment...</p>
+                  <p className="text-gray-400 text-sm mt-2">
+                    Your company account will be created automatically when payment completes (3-5 business days)
+                  </p>
                 </div>
               ) : (
                 <>

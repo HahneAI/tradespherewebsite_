@@ -90,7 +90,7 @@ export const validateAccountHolderName = (name: string): { isValid: boolean; err
   }
 
   // Check for valid name characters (letters, spaces, hyphens, apostrophes)
-  const nameRegex = /^[a-zA-Z\s\-'\.]+$/;
+  const nameRegex = /^[a-zA-Z\s\-'.]+$/;
   if (!nameRegex.test(name.trim())) {
     return { isValid: false, error: 'Please enter a valid name (letters, spaces, hyphens only)' };
   }
