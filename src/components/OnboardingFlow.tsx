@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
-import { User, Settings, Users, Globe, Monitor, Play, ArrowRight, Terminal, Mail, Building, CreditCard, Check, Loader } from 'lucide-react';
-import { validateEmail, validateCompanyName } from '../utils/validation';
+import { User, Settings, Users, Globe, Monitor, Play, ArrowRight, Terminal, Mail, Building, Landmark, Check, Loader, Shield, Clock } from 'lucide-react';
+import { validateEmail, validateCompanyName, validateRoutingNumber, validateAccountNumber, validateAccountHolderName } from '../utils/validation';
 
 interface FormData {
   companyEmail: string;
   companyName: string;
+  routingNumber: string;
+  accountNumber: string;
+  accountType: 'checking' | 'savings';
+  accountHolderName: string;
   acceptedTerms: boolean;
+  achAgreement: boolean;
 }
 
 interface FormErrors {
   companyEmail?: string;
   companyName?: string;
+  routingNumber?: string;
+  accountNumber?: string;
+  accountHolderName?: string;
   acceptedTerms?: string;
+  achAgreement?: string;
 }
 
 const OnboardingFlow = () => {
@@ -22,7 +31,12 @@ const OnboardingFlow = () => {
   const [formData, setFormData] = useState<FormData>({
     companyEmail: '',
     companyName: '',
-    acceptedTerms: false
+    routingNumber: '',
+    accountNumber: '',
+    accountType: 'checking',
+    accountHolderName: '',
+    acceptedTerms: false,
+    achAgreement: false
   });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -66,8 +80,27 @@ const OnboardingFlow = () => {
       errors.companyName = nameValidation.error;
     }
 
+    const routingValidation = validateRoutingNumber(formData.routingNumber);
+    if (!routingValidation.isValid) {
+      errors.routingNumber = routingValidation.error;
+    }
+
+    const accountValidation = validateAccountNumber(formData.accountNumber);
+    if (!accountValidation.isValid) {
+      errors.accountNumber = accountValidation.error;
+    }
+
+    const holderNameValidation = validateAccountHolderName(formData.accountHolderName);
+    if (!holderNameValidation.isValid) {
+      errors.accountHolderName = holderNameValidation.error;
+    }
+
     if (!formData.acceptedTerms) {
       errors.acceptedTerms = 'You must accept the terms and conditions';
+    }
+
+    if (!formData.achAgreement) {
+      errors.achAgreement = 'You must accept the ACH agreement';
     }
 
     setFormErrors(errors);
@@ -164,12 +197,12 @@ const OnboardingFlow = () => {
 
         {currentStep === 3 && (
           <div className="max-w-4xl mx-auto">
-            {/* Payment Form Header */}
+            {/* ACH Setup Header */}
             <div className="text-center mb-12">
               <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600/20 to-cyan-400/20 border border-blue-500/30 rounded-full mb-6">
-                <CreditCard className="h-4 w-4 text-cyan-400 mr-2" />
+                <Landmark className="h-4 w-4 text-cyan-400 mr-2" />
                 <span className="text-cyan-400 font-mono text-sm uppercase tracking-wider">
-                  Payment Configuration
+                  ACH Bank Setup
                 </span>
               </div>
 
@@ -182,7 +215,7 @@ const OnboardingFlow = () => {
               </h1>
 
               <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
-                Finalize your Trade-Sphere system configuration with business details and subscription setup.
+                Connect your business bank account for secure ACH payments and lower processing fees.
               </p>
             </div>
 
@@ -193,12 +226,12 @@ const OnboardingFlow = () => {
                   <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Check className="h-10 w-10 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">Payment Processed Successfully</h3>
-                  <p className="text-green-400 font-mono">System initialization complete...</p>
+                  <h3 className="text-2xl font-bold text-white mb-4">ACH Payment Setup Complete</h3>
+                  <p className="text-green-400 font-mono">Bank account verified and ready...</p>
                 </div>
               ) : (
                 <>
-                  {/* Form Fields */}
+                  {/* Company Information */}
                   <div className="grid md:grid-cols-2 gap-8 mb-8">
                     {/* Company Email */}
                     <div>
@@ -245,16 +278,122 @@ const OnboardingFlow = () => {
                     </div>
                   </div>
 
-                  {/* Subscription Plan */}
+                  {/* Bank Account Information */}
+                  <div className="mb-8">
+                    <h3 className="text-lg font-bold text-white mb-6 flex items-center">
+                      <Landmark className="inline h-5 w-5 mr-2" />
+                      Bank Account Information
+                    </h3>
+
+                    <div className="grid md:grid-cols-2 gap-6 mb-6">
+                      {/* Routing Number */}
+                      <div>
+                        <label className="block text-gray-300 font-medium mb-3">
+                          Bank Routing Number
+                        </label>
+                        <input
+                          type="text"
+                          value={formData.routingNumber}
+                          onChange={(e) => handleInputChange('routingNumber', e.target.value)}
+                          className={`w-full px-4 py-3 bg-gray-900/50 border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 transition-all font-mono ${
+                            formErrors.routingNumber
+                              ? 'border-red-500 focus:ring-red-500'
+                              : 'border-gray-600 focus:ring-blue-500'
+                          }`}
+                          placeholder="123456789"
+                          maxLength={9}
+                        />
+                        {formErrors.routingNumber && (
+                          <p className="text-red-400 text-sm mt-2 font-mono">{formErrors.routingNumber}</p>
+                        )}
+                        <p className="text-gray-500 text-xs mt-1">9-digit number found on your checks</p>
+                      </div>
+
+                      {/* Account Number */}
+                      <div>
+                        <label className="block text-gray-300 font-medium mb-3">
+                          Account Number
+                        </label>
+                        <input
+                          type="text"
+                          value={formData.accountNumber}
+                          onChange={(e) => handleInputChange('accountNumber', e.target.value)}
+                          className={`w-full px-4 py-3 bg-gray-900/50 border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 transition-all font-mono ${
+                            formErrors.accountNumber
+                              ? 'border-red-500 focus:ring-red-500'
+                              : 'border-gray-600 focus:ring-blue-500'
+                          }`}
+                          placeholder="Account number"
+                        />
+                        {formErrors.accountNumber && (
+                          <p className="text-red-400 text-sm mt-2 font-mono">{formErrors.accountNumber}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {/* Account Type */}
+                      <div>
+                        <label className="block text-gray-300 font-medium mb-3">
+                          Account Type
+                        </label>
+                        <select
+                          value={formData.accountType}
+                          onChange={(e) => handleInputChange('accountType', e.target.value)}
+                          className="w-full px-4 py-3 bg-gray-900/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                        >
+                          <option value="checking">Checking</option>
+                          <option value="savings">Savings</option>
+                        </select>
+                      </div>
+
+                      {/* Account Holder Name */}
+                      <div>
+                        <label className="block text-gray-300 font-medium mb-3">
+                          Account Holder Name
+                        </label>
+                        <input
+                          type="text"
+                          value={formData.accountHolderName}
+                          onChange={(e) => handleInputChange('accountHolderName', e.target.value)}
+                          className={`w-full px-4 py-3 bg-gray-900/50 border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 transition-all ${
+                            formErrors.accountHolderName
+                              ? 'border-red-500 focus:ring-red-500'
+                              : 'border-gray-600 focus:ring-blue-500'
+                          }`}
+                          placeholder="John Doe"
+                        />
+                        {formErrors.accountHolderName && (
+                          <p className="text-red-400 text-sm mt-2 font-mono">{formErrors.accountHolderName}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Security Notice */}
+                    <div className="mt-6 p-4 bg-blue-600/10 border border-blue-500/30 rounded-lg">
+                      <div className="flex items-start space-x-3">
+                        <Shield className="h-5 w-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <h4 className="text-blue-300 font-medium">Bank-Level Security</h4>
+                          <p className="text-gray-400 text-sm mt-1">
+                            Your banking information is encrypted and secured using 256-bit SSL encryption.
+                            We partner with Dwolla for secure ACH processing.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ACH Subscription Plan */}
                   <div className="mb-8">
                     <h3 className="text-lg font-bold text-white mb-4">
                       <Terminal className="inline h-4 w-4 mr-2" />
-                      Subscription Plan
+                      ACH Subscription Plan
                     </h3>
                     <div className="bg-gradient-to-r from-blue-600/10 to-cyan-400/10 border border-blue-500/30 rounded-lg p-6">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h4 className="text-lg font-bold text-white">Monthly Subscription</h4>
+                          <h4 className="text-lg font-bold text-white">Monthly Subscription via ACH Transfer</h4>
                           <p className="text-gray-400">Full access to AI pricing engine and all features</p>
                         </div>
                         <div className="text-right">
@@ -262,11 +401,47 @@ const OnboardingFlow = () => {
                           <div className="text-gray-400 font-mono text-sm">/month</div>
                         </div>
                       </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center space-x-4">
+                          <div className="flex items-center text-green-400">
+                            <Check className="h-4 w-4 mr-1" />
+                            <span>Lower processing fees with bank account</span>
+                          </div>
+                          <div className="flex items-center text-yellow-400">
+                            <Clock className="h-4 w-4 mr-1" />
+                            <span>3-5 business days processing</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bank Verification Options */}
+                  <div className="mb-8">
+                    <h3 className="text-lg font-bold text-white mb-4">
+                      <Shield className="inline h-4 w-4 mr-2" />
+                      Account Verification
+                    </h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="bg-gray-700/30 border border-gray-600 rounded-lg p-4">
+                        <h4 className="font-medium text-white mb-2">Instant Verification</h4>
+                        <p className="text-gray-400 text-sm mb-3">
+                          Connect securely through your online banking (when available)
+                        </p>
+                        <div className="text-cyan-400 text-sm font-mono">Coming Soon</div>
+                      </div>
+                      <div className="bg-gray-700/30 border border-gray-600 rounded-lg p-4">
+                        <h4 className="font-medium text-white mb-2">Micro-deposit Verification</h4>
+                        <p className="text-gray-400 text-sm mb-3">
+                          We'll send small deposits (1-2 business days) for verification
+                        </p>
+                        <div className="text-green-400 text-sm font-mono">Standard Method</div>
+                      </div>
                     </div>
                   </div>
 
                   {/* Terms & Conditions */}
-                  <div className="mb-8">
+                  <div className="mb-8 space-y-4">
                     <label className="flex items-start space-x-3 cursor-pointer">
                       <input
                         type="checkbox"
@@ -287,6 +462,25 @@ const OnboardingFlow = () => {
                     </label>
                     {formErrors.acceptedTerms && (
                       <p className="text-red-400 text-sm mt-2 font-mono">{formErrors.acceptedTerms}</p>
+                    )}
+
+                    <label className="flex items-start space-x-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.achAgreement}
+                        onChange={(e) => handleInputChange('achAgreement', e.target.checked)}
+                        className="mt-1 w-4 h-4 text-blue-600 bg-gray-900/50 border-gray-600 rounded focus:ring-blue-500"
+                      />
+                      <span className="text-gray-300">
+                        I authorize Trade-Sphere to initiate ACH debits and credits to my bank account according to the{' '}
+                        <a href="#" className="text-blue-400 hover:text-blue-300 underline">
+                          ACH Agreement
+                        </a>{' '}
+                        and understand that ACH transactions may take 3-5 business days to process.
+                      </span>
+                    </label>
+                    {formErrors.achAgreement && (
+                      <p className="text-red-400 text-sm mt-2 font-mono">{formErrors.achAgreement}</p>
                     )}
                   </div>
 
@@ -311,7 +505,7 @@ const OnboardingFlow = () => {
                         </>
                       ) : (
                         <>
-                          <span>Complete Setup</span>
+                          <span>Setup ACH Payment</span>
                           <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                         </>
                       )}
