@@ -48,7 +48,7 @@ exports.handler = async (event, context) => {
       environment: process.env.DWOLLA_ENVIRONMENT || 'sandbox'
     });
 
-    // Create business customer
+    // Create business customer with controller
     const customerRequest = {
       firstName: validatedData.accountHolderName.split(' ')[0] || validatedData.accountHolderName,
       lastName: validatedData.accountHolderName.split(' ').slice(1).join(' ') || 'Company',
@@ -63,7 +63,21 @@ exports.handler = async (event, context) => {
       state: 'IA',
       postalCode: '50309',
       country: 'US',
-      phone: '+15555551234' // This should be collected in the form
+      phone: '+15555551234', // This should be collected in the form
+      controller: {
+        firstName: validatedData.accountHolderName.split(' ')[0] || validatedData.accountHolderName,
+        lastName: validatedData.accountHolderName.split(' ').slice(1).join(' ') || 'Controller',
+        title: 'CEO',
+        dateOfBirth: '1990-01-01',
+        ssn: '1234',
+        address: {
+          address1: '123 Business St',
+          city: 'Des Moines',
+          stateProvinceRegion: 'IA',
+          country: 'US',
+          postalCode: '50309'
+        }
+      }
     };
 
     const customerResponse = await dwolla.post('customers', customerRequest);
