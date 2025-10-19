@@ -19,7 +19,8 @@ const Pricing = () => {
         '5 quote analytics projects/month'
       ],
       popular: false,
-      cta: 'Request a Demo'
+      cta: 'Start Free Trial',
+      planParam: 'standard'
     },
     {
       name: 'Growth',
@@ -36,7 +37,8 @@ const Pricing = () => {
         'Live support & onboarding help'
       ],
       popular: true,
-      cta: 'Request a Demo'
+      cta: 'Start Free Trial',
+      planParam: 'pro'
     },
     {
       name: 'Enterprise',
@@ -53,7 +55,8 @@ const Pricing = () => {
         'Custom onboarding & priority support'
       ],
       popular: false,
-      cta: 'Request a Demo'
+      cta: 'Start Free Trial',
+      planParam: 'enterprise'
     }
   ];
 
@@ -177,8 +180,7 @@ const Pricing = () => {
                         : 'bg-gray-700 text-white hover:bg-gray-600 border border-gray-600 hover:border-gray-500'
                     }`}
                     onClick={() => {
-                      const element = document.getElementById('contact');
-                      element?.scrollIntoView({ behavior: 'smooth' });
+                      window.location.href = `/signup?plan=${plan.planParam}`;
                     }}
                   >
                     {plan.cta}
@@ -287,30 +289,27 @@ const Pricing = () => {
                 <div></div>
                 <button
                   onClick={() => {
-                    const element = document.getElementById('contact');
-                    element?.scrollIntoView({ behavior: 'smooth' });
+                    window.location.href = '/signup?plan=standard';
                   }}
                   className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-500 transition-colors font-semibold text-sm border border-gray-500"
                 >
-                  Request Demo
+                  Start Free Trial
                 </button>
                 <button
                   onClick={() => {
-                    const element = document.getElementById('contact');
-                    element?.scrollIntoView({ behavior: 'smooth' });
+                    window.location.href = '/signup?plan=pro';
                   }}
                   className="bg-gradient-to-r from-blue-600 to-teal-600 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-teal-700 transition-all font-semibold text-sm shadow-lg"
                 >
-                  Request Demo
+                  Start Free Trial
                 </button>
                 <button
                   onClick={() => {
-                    const element = document.getElementById('contact');
-                    element?.scrollIntoView({ behavior: 'smooth' });
+                    window.location.href = '/signup?plan=enterprise';
                   }}
                   className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-500 transition-colors font-semibold text-sm border border-gray-500"
                 >
-                  Request Demo
+                  Start Free Trial
                 </button>
               </div>
             </div>
@@ -369,8 +368,7 @@ const Pricing = () => {
             </p>
             <button
               onClick={() => {
-                const element = document.getElementById('contact');
-                element?.scrollIntoView({ behavior: 'smooth' });
+                window.location.href = '/signup';
               }}
               className="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
             >

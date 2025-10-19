@@ -7,9 +7,16 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:registration": "node test-registration-flow.js",
+    "test:registration:cleanup": "node test-registration-flow.js --cleanup",
+    "test:registration:validation": "node test-registration-flow.js --category=validation",
+    "test:registration:api": "node test-registration-flow.js --category=api",
+    "test:registration:database": "node test-registration-flow.js --category=database",
+    "test:registration:dwolla": "node test-registration-flow.js --category=dwolla"
   },
   "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
     "@supabase/supabase-js": "^2.39.3",
     "dwolla-v2": "^3.4.0",
     "lucide-react": "^0.344.0",
@@ -27,6 +34,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.18",
+    "dotenv": "^16.4.5",
     "eslint": "^9.9.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.11",

@@ -10,6 +10,8 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import OnboardingFlow from './components/OnboardingFlow';
+import OwnerRegistrationForm from './components/OwnerRegistrationForm';
+import RegistrationSuccess from './pages/RegistrationSuccess';
 
 function HomePage() {
   return (
@@ -33,6 +35,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/onboarding" element={<OnboardingFlow />} />
+        <Route path="/signup" element={<OwnerRegistrationForm />} />
+        <Route path="/registration-success" element={<RegistrationSuccess />} />
       </Routes>
     </Router>
   );
