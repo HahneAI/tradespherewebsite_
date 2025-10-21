@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Check, ArrowRight, ArrowLeft, Loader2, AlertCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { BusinessType } from '../types/payment';
+import Header from './Header';
 
 // ==============================================================================
 // TYPES & INTERFACES
@@ -628,24 +630,39 @@ const OwnerRegistrationForm: React.FC = () => {
   // ==============================================================================
 
   return (
-    <div className="min-h-screen bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Create Your{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
-              Trade-Sphere
-            </span>{' '}
-            Account
-          </h1>
-          <p className="text-gray-300 text-lg">
-            Complete the registration to start your subscription
-          </p>
-        </div>
+    <>
+      {/* Header Component */}
+      <Header />
 
-        {/* Progress Indicator */}
-        {renderProgressIndicator()}
+      <div className="min-h-screen bg-gray-900 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+          {/* Back to Home Link */}
+          <div className="mb-6">
+            <Link
+              to="/"
+              className="inline-flex items-center text-gray-400 hover:text-blue-400 transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Home
+            </Link>
+          </div>
+
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Create Your{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
+                Trade-Sphere
+              </span>{' '}
+              Account
+            </h1>
+            <p className="text-gray-300 text-lg">
+              Complete the registration to start your subscription
+            </p>
+          </div>
+
+          {/* Progress Indicator */}
+          {renderProgressIndicator()}
 
         {/* Form */}
         <div className="bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 p-8">
@@ -721,8 +738,9 @@ const OwnerRegistrationForm: React.FC = () => {
             Your information is encrypted and secure. We use bank-level security to protect your data.
           </p>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

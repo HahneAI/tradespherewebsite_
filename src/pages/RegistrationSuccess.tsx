@@ -1,5 +1,7 @@
 import React from 'react';
 import { CheckCircle2, Mail, CreditCard, Settings, Clock, HelpCircle, Phone, FileText } from 'lucide-react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 /**
  * RegistrationSuccess Component
@@ -100,8 +102,12 @@ const RegistrationSuccess: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-teal-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <>
+      {/* Header Component */}
+      <Header />
+
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-teal-50 pt-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         {/* Success Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-full mb-6 shadow-lg animate-bounce">
@@ -253,8 +259,12 @@ const RegistrationSuccess: React.FC = () => {
             {' '}or contact support.
           </p>
         </div>
+        </div>
       </div>
-    </div>
+
+      {/* Footer Component */}
+      <Footer />
+    </>
   );
 };
 
