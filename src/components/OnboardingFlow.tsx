@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { User, Settings, Users, Globe, Monitor, Play, ArrowRight, Terminal, Mail, Building, Landmark, Check, Loader, Shield, Clock } from 'lucide-react';
+import { User, Settings, Users, Globe, Monitor, Play, ArrowRight, ArrowLeft, Terminal, Mail, Building, Landmark, Check, Loader, Shield, Clock } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import Header from './Header';
 import { validateEmail, validateCompanyName, validateRoutingNumber, validateAccountNumber, validateAccountHolderName } from '../utils/validation';
 
 interface FormData {
@@ -191,31 +193,21 @@ const OnboardingFlow = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800">
-      {/* Header */}
-      <header className="border-b border-gray-700/50 bg-slate-900/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center space-x-3">
-              <img 
-                src="/image_2025-06-18_211614282.png" 
-                alt="Trade-Sphere Logo" 
-                className="h-10 w-10"
-              />
+    <>
+      <Header />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 pt-24">
+        {/* Step Counter Bar */}
+        <div className="border-b border-gray-700/50 bg-slate-900/80 backdrop-blur-sm py-3">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <span className="text-xl font-bold text-white">Trade-Sphere</span>
                 <span className="text-green-400 font-mono text-sm">// onboarding.init()</span>
-              </div>
-            </div>
-
-            {/* Step Counter */}
-            <div className="flex items-center space-x-4">
-              <div className="text-gray-300 font-mono text-sm">
-                Step {currentStep} of 10
+                <div className="text-gray-300 font-mono text-sm">
+                  Step {currentStep} of 10
+                </div>
               </div>
               <div className="w-32 bg-gray-700 rounded-full h-2">
-                <div 
+                <div
                   className="bg-gradient-to-r from-blue-500 to-cyan-400 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${(currentStep / 10) * 100}%` }}
                 />
@@ -223,10 +215,17 @@ const OnboardingFlow = () => {
             </div>
           </div>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Back to Home Link */}
+          <Link
+            to="/"
+            className="inline-flex items-center text-gray-400 hover:text-blue-400 transition-colors mb-6"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Home
+          </Link>
         {currentStep === 1 && (
           <>
             {/* Hero Section */}
@@ -762,7 +761,8 @@ const OnboardingFlow = () => {
         </>
         )}
       </main>
-    </div>
+      </div>
+    </>
   );
 };
 
