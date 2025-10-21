@@ -54,15 +54,19 @@ const Features = () => {
   ];
 
   return (
-    <section id="features" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="features" className="py-20 bg-gradient-to-b from-white via-gray-50 to-white relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 left-1/4 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-teal-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 animate-fade-in-up">
             Everything You Need to Scale Your Business
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Comprehensive field service management tools designed to streamline operations, 
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto animate-fade-in-up delay-100">
+            Comprehensive field service management tools designed to streamline operations,
             increase efficiency, and drive growth for service-based businesses.
           </p>
         </div>
@@ -74,40 +78,52 @@ const Features = () => {
             return (
               <div
                 key={index}
-                className="group p-6 bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                className="group relative p-6 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 hover:border-blue-300/50 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 animate-fade-in-up"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                  <IconComponent className="h-6 w-6 text-white" />
+                {/* Glow effect on hover */}
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 to-teal-500/0 group-hover:from-blue-500/5 group-hover:to-teal-500/5 transition-all duration-500"></div>
+
+                <div className="relative">
+                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg group-hover:shadow-xl`}>
+                    <IconComponent className="h-6 w-6 text-white group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {feature.description}
-                </p>
               </div>
             );
           })}
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-blue-50 to-teal-50 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Ready to Transform Your Field Service Operations?
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Join hundreds of companies already using Trade-Sphere to streamline their operations.
-            </p>
-            <button
-              onClick={() => {
-                const element = document.getElementById('contact');
-                element?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
-            >
-              Get Started Today
-            </button>
+        <div className="text-center mt-16 animate-fade-in-up delay-500">
+          <div className="relative bg-gradient-to-r from-blue-50 to-teal-50 rounded-2xl p-8 overflow-hidden group hover:shadow-lg transition-all duration-300">
+            {/* Animated background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-100/50 to-teal-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+            <div className="relative">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Ready to Transform Your Field Service Operations?
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Join hundreds of companies already using Trade-Sphere to streamline their operations.
+              </p>
+              <button
+                onClick={() => {
+                  const element = document.getElementById('contact');
+                  element?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="relative bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold overflow-hidden group/btn transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/50 hover:scale-105"
+              >
+                <span className="relative z-10">Get Started Today</span>
+                <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

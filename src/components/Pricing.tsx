@@ -107,35 +107,39 @@ const Pricing = () => {
   ];
 
   return (
-    <section id="pricing" className="py-20 bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="pricing" className="relative py-20 bg-gray-900 overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-teal-900 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 animate-fade-in-up">
             Simple, Transparent Pricing
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8 animate-fade-in-up delay-100">
             Choose the plan that fits your business size and needs. All plans include a 14-day free trial.
           </p>
           
           {/* Compare Plans Toggle */}
-          <div className="inline-flex items-center bg-gray-800 rounded-lg p-1 border border-gray-700 mb-8">
+          <div className="inline-flex items-center bg-gray-800 rounded-lg p-1 border border-gray-700 mb-8 animate-fade-in-up delay-200">
             <button
               onClick={() => setShowComparison(false)}
-              className={`px-4 py-2 rounded-md font-medium transition-colors ${
+              className={`px-4 py-2 rounded-md font-medium transition-all duration-300 ${
                 !showComparison
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-300 hover:text-white'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'text-gray-300 hover:text-white hover:bg-gray-700'
               }`}
             >
               View Plans
             </button>
             <button
               onClick={() => setShowComparison(true)}
-              className={`px-4 py-2 rounded-md font-medium transition-colors ${
+              className={`px-4 py-2 rounded-md font-medium transition-all duration-300 ${
                 showComparison
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-300 hover:text-white'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'text-gray-300 hover:text-white hover:bg-gray-700'
               }`}
             >
               Compare Plans
@@ -149,54 +153,59 @@ const Pricing = () => {
             {plans.map((plan, index) => (
               <div
                 key={index}
-                className={`relative bg-gray-800 rounded-2xl p-8 ${
+                className={`relative bg-gray-800 rounded-2xl p-8 overflow-hidden group animate-fade-in-up ${
                   plan.popular
-                    ? 'border-2 border-blue-500 shadow-2xl shadow-blue-500/20 scale-105'
-                    : 'border border-gray-700 shadow-xl'
-                } hover:shadow-2xl transition-all duration-300`}
+                    ? 'border-2 border-blue-500 shadow-2xl shadow-blue-500/20 scale-105 hover:scale-110'
+                    : 'border border-gray-700 shadow-xl hover:border-blue-400/50'
+                } hover:shadow-2xl transition-all duration-500`}
+                style={{ animationDelay: `${index * 100 + 300}ms` }}
               >
+                {/* Shimmer effect on hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                </div>
                 {/* Popular Badge */}
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-gradient-to-r from-blue-500 to-teal-500 text-white px-4 py-1 rounded-full text-sm font-medium flex items-center space-x-1">
-                      <Star className="h-3 w-3 fill-current" />
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                    <div className="bg-gradient-to-r from-blue-500 to-teal-500 text-white px-4 py-1 rounded-full text-sm font-medium flex items-center space-x-1 shadow-lg animate-bounce-subtle">
+                      <Star className="h-3 w-3 fill-current animate-pulse" />
                       <span>Most Popular</span>
                     </div>
                   </div>
                 )}
 
                 {/* Plan Header */}
-                <div className="text-center mb-8">
-                  <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
+                <div className="relative text-center mb-8">
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors duration-300">{plan.name}</h3>
                   <p className="text-gray-400 mb-4">{plan.description}</p>
                   <div className="mb-6">
-                    <span className="text-4xl font-bold text-white">{plan.price}</span>
+                    <span className="text-4xl font-bold text-white group-hover:scale-110 inline-block transition-transform duration-300">{plan.price}</span>
                     {plan.period && <span className="text-gray-400 ml-1">/{plan.period}</span>}
                   </div>
                   <button
-                    className={`w-full py-3 px-6 rounded-lg font-semibold transition-all duration-300 ${
+                    className={`relative w-full py-3 px-6 rounded-lg font-semibold transition-all duration-300 overflow-hidden ${
                       plan.popular
-                        ? 'bg-gradient-to-r from-blue-600 to-teal-600 text-white hover:from-blue-700 hover:to-teal-700 shadow-lg hover:shadow-xl'
-                        : 'bg-gray-700 text-white hover:bg-gray-600 border border-gray-600 hover:border-gray-500'
+                        ? 'bg-gradient-to-r from-blue-600 to-teal-600 text-white hover:from-blue-700 hover:to-teal-700 shadow-lg hover:shadow-xl hover:shadow-blue-500/50 hover:scale-105'
+                        : 'bg-gray-700 text-white hover:bg-gray-600 border border-gray-600 hover:border-blue-400 hover:scale-105'
                     }`}
                     onClick={() => {
                       window.location.href = `/signup?plan=${plan.planParam}`;
                     }}
                   >
-                    {plan.cta}
+                    <span className="relative z-10">{plan.cta}</span>
                   </button>
                 </div>
 
                 {/* Features */}
-                <div className="space-y-4">
+                <div className="relative space-y-4">
                   <div className="text-sm font-semibold text-gray-300 uppercase tracking-wide">
                     What's included:
                   </div>
                   <ul className="space-y-3">
                     {plan.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start">
-                        <Check className="h-4 w-4 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-300">{feature}</span>
+                      <li key={featureIndex} className="flex items-start group/feature">
+                        <Check className="h-4 w-4 text-green-400 mr-3 flex-shrink-0 mt-0.5 group-hover/feature:scale-125 transition-transform duration-300" />
+                        <span className="text-gray-300 group-hover/feature:text-white transition-colors duration-300">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -317,12 +326,12 @@ const Pricing = () => {
         )}
 
         {/* FAQ Section */}
-        <div className="mt-16 text-center">
+        <div className="mt-16 text-center animate-fade-in-up delay-500">
           <h3 className="text-2xl font-bold text-white mb-8">
             Frequently Asked Questions
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1">
               <h4 className="font-semibold text-white mb-2">
                 Can I change plans anytime?
               </h4>
@@ -330,7 +339,7 @@ const Pricing = () => {
                 Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.
               </p>
             </div>
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1">
               <h4 className="font-semibold text-white mb-2">
                 Is there a setup fee?
               </h4>
@@ -338,7 +347,7 @@ const Pricing = () => {
                 No setup fees. We include onboarding and training with all plans.
               </p>
             </div>
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1">
               <h4 className="font-semibold text-white mb-2">
                 What payment methods do you accept?
               </h4>
@@ -346,7 +355,7 @@ const Pricing = () => {
                 We accept all major credit cards and offer annual billing discounts.
               </p>
             </div>
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1">
               <h4 className="font-semibold text-white mb-2">
                 Do you offer refunds?
               </h4>
@@ -359,21 +368,28 @@ const Pricing = () => {
 
         {/* Bottom CTA */}
         <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-blue-600 to-teal-600 rounded-2xl p-8 text-white">
-            <h3 className="text-2xl font-bold mb-4">
-              Ready to Transform Your Field Service Operations?
-            </h3>
-            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-              Join hundreds of companies already using Trade-Sphere to streamline their operations and grow their business.
-            </p>
-            <button
-              onClick={() => {
-                window.location.href = '/signup';
-              }}
-              className="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              Get Started Today
-            </button>
+          <div className="relative bg-gradient-to-r from-blue-600 via-blue-500 to-teal-600 rounded-2xl p-8 text-white overflow-hidden group hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-500 bg-200 animate-gradient">
+            {/* Shimmer effect */}
+            <div className="absolute inset-0 opacity-30">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+            </div>
+
+            <div className="relative">
+              <h3 className="text-2xl font-bold mb-4">
+                Ready to Transform Your Field Service Operations?
+              </h3>
+              <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+                Join hundreds of companies already using Trade-Sphere to streamline their operations and grow their business.
+              </p>
+              <button
+                onClick={() => {
+                  window.location.href = '/signup';
+                }}
+                className="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 font-semibold shadow-lg hover:shadow-2xl transform hover:scale-110"
+              >
+                Get Started Today
+              </button>
+            </div>
           </div>
         </div>
       </div>
