@@ -4,11 +4,13 @@ const crypto = require('crypto');
 
 // Input validation schema
 const companySchema = z.object({
-  paymentId: z.string(),
+  paymentId: z.string().uuid(),
   companyEmail: z.string().email(),
-  companyName: z.string().min(2),
-  dwollaCustomerId: z.string(),
-  accountHolderName: z.string().min(2)
+  companyName: z.string().min(2).max(100),
+  stripeCustomerId: z.string().startsWith('cus_'), // Stripe customer ID format
+  stripePaymentMethodId: z.string().startsWith('pm_').optional(), // Stripe payment method ID
+  ownerName: z.string().min(2).max(100),
+  subscriptionTier: z.enum(['starter', 'growth', 'enterprise']).default('growth')
 });
 
 // CORS headers
@@ -57,7 +59,7 @@ exports.handler = async (event, context) => {
       .from('payments')
       .select('*')
       .eq('id', validatedData.paymentId)
-      .eq('status', 'processed')
+      .in('status', ['succeeded', 'processing']) // Allow both succeeded and processing
       .single();
 
     if (paymentError || !paymentData) {
@@ -71,34 +73,43 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Check if company already exists
+    // Check if company already exists (idempotency check)
     const { data: existingCompany } = await supabase
       .from('companies')
-      .select('id')
-      .eq('email', validatedData.companyEmail)
+      .select('id, company_id')
+      .or(`email.eq.${validatedData.companyEmail},stripe_customer_id.eq.${validatedData.stripeCustomerId}`)
       .single();
 
     if (existingCompany) {
+      console.log('Company already exists:', existingCompany.id);
       return {
-        statusCode: 400,
+        statusCode: 200,
         headers,
         body: JSON.stringify({
-          error: 'Company already exists',
-          message: 'A company with this email already exists'
+          success: true,
+          companyId: existingCompany.id,
+          companyCode: existingCompany.company_id,
+          message: 'Company already exists',
+          alreadyExisted: true
         })
       };
     }
 
-    // Create company record
+    // Create company record with Stripe fields
     const { data: company, error: companyError } = await supabase
       .from('companies')
       .insert({
         name: validatedData.companyName,
         email: validatedData.companyEmail,
-        dwolla_customer_id: validatedData.dwollaCustomerId,
-        payment_id: validatedData.paymentId,
-        status: 'active',
+        billing_email: validatedData.companyEmail,
+        billing_name: validatedData.companyName,
+        stripe_customer_id: validatedData.stripeCustomerId,
+        stripe_payment_method_id: validatedData.stripePaymentMethodId || null,
         subscription_status: 'active',
+        subscription_tier: validatedData.subscriptionTier,
+        payment_method_status: validatedData.stripePaymentMethodId ? 'active' : 'pending',
+        onboarding_completed: false,
+        status: 'active',
         created_at: new Date().toISOString()
       })
       .select()
@@ -120,7 +131,7 @@ exports.handler = async (event, context) => {
         company_id: company.id,
         company_name: validatedData.companyName,
         role: 'owner',
-        full_name: validatedData.accountHolderName
+        full_name: validatedData.ownerName
       }
     });
 
@@ -130,6 +141,16 @@ exports.handler = async (event, context) => {
       throw new Error(`Failed to create user account: ${authError.message}`);
     }
 
+    // Update company record with owner_id
+    const { error: ownerUpdateError } = await supabase
+      .from('companies')
+      .update({ owner_id: authUser.user.id })
+      .eq('id', company.id);
+
+    if (ownerUpdateError) {
+      console.error('Failed to update company owner_id:', ownerUpdateError);
+    }
+
     // Create user record in users table
     const { error: userError } = await supabase
       .from('users')
@@ -137,7 +158,7 @@ exports.handler = async (event, context) => {
         id: authUser.user.id,
         company_id: company.id,
         email: validatedData.companyEmail,
-        full_name: validatedData.accountHolderName,
+        full_name: validatedData.ownerName,
         role: 'owner',
         status: 'active',
         created_at: new Date().toISOString()
@@ -159,6 +180,7 @@ exports.handler = async (event, context) => {
     // TODO: Send welcome email with login credentials
     // This would typically integrate with an email service like SendGrid, Mailgun, etc.
     console.log(`Welcome email should be sent to ${validatedData.companyEmail} with temporary password: ${temporaryPassword}`);
+    console.log(`Company created: ${company.id} (${company.company_id}), Owner: ${authUser.user.id}`);
 
     return {
       statusCode: 200,
@@ -166,6 +188,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({
         success: true,
         companyId: company.id,
+        companyCode: company.company_id,
         userId: authUser.user.id,
         loginCredentials: {
           email: validatedData.companyEmail,
@@ -175,8 +198,8 @@ exports.handler = async (event, context) => {
         nextSteps: [
           'Check your email for login instructions',
           'Log in with the provided temporary password',
-          'Complete your company profile setup',
-          'Start using Trade-Sphere AI pricing tools'
+          'Complete your company onboarding wizard',
+          'Start using Tradesphere'
         ]
       })
     };
