@@ -70,32 +70,6 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Hero Image/Dashboard Preview */}
-        <div className="mt-16 relative animate-fade-in-up delay-400">
-          <div className="bg-white rounded-2xl shadow-2xl p-1 mx-auto max-w-5xl hover:shadow-[0_20px_80px_-20px_rgba(0,0,0,0.3)] transition-all duration-500 hover:scale-[1.02]">
-            <div className="relative bg-gradient-to-r from-blue-600 via-blue-500 to-teal-600 rounded-xl p-8 text-white overflow-hidden bg-200 animate-gradient">
-              {/* Shimmer overlay effect */}
-              <div className="absolute inset-0 opacity-30">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent transform -translate-x-full animate-shimmer"></div>
-              </div>
-
-              <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="text-center group">
-                  <div className="text-3xl font-bold transition-transform duration-300 group-hover:scale-110">98%</div>
-                  <div className="text-blue-100">Customer Satisfaction</div>
-                </div>
-                <div className="text-center group">
-                  <div className="text-3xl font-bold transition-transform duration-300 group-hover:scale-110">45%</div>
-                  <div className="text-blue-100">Faster Scheduling</div>
-                </div>
-                <div className="text-center group">
-                  <div className="text-3xl font-bold transition-transform duration-300 group-hover:scale-110">$50K+</div>
-                  <div className="text-blue-100">Average Revenue Increase</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
