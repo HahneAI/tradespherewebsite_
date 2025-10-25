@@ -94,15 +94,15 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-4">
             <button
               onClick={() => scrollToSection('contact')}
-              className="relative text-blue-600 hover:text-blue-700 font-medium transition-all duration-300 hover:scale-105"
+              className="relative text-blue-600 hover:text-blue-700 font-medium transition-all duration-300 hover:scale-105 px-6 py-2"
             >
               Request Demo
             </button>
             <button
               onClick={() => handleNavigation('/onboarding')}
-              className="relative bg-blue-600 text-white px-4 py-2 rounded-lg font-medium overflow-hidden group transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/50 hover:scale-105"
+              className="relative bg-blue-600 text-white px-6 py-2 rounded-lg font-medium overflow-hidden group transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/50 hover:scale-105"
             >
-              <span className="relative z-10">Start Free Trial</span>
+              <span className="relative z-10">Book a Demo</span>
               <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </button>
           </div>
@@ -176,7 +176,7 @@ const Header = () => {
                   onClick={() => handleNavigation('/onboarding')}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 font-medium text-center hover:scale-105"
                 >
-                  Start Free Trial
+                  Book a Demo
                 </button>
               </div>
             </div>

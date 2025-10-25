@@ -45,7 +45,7 @@ const Hero = () => {
               onClick={() => scrollToSection('contact')}
               className="group relative bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center justify-center space-x-2 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(37,99,235,0.5)]"
             >
-              <span className="relative z-10">Start Free Trial</span>
+              <span className="relative z-10">Book a Demo</span>
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform relative z-10" />
               <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </button>

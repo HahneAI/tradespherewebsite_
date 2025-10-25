@@ -19,7 +19,7 @@ const Pricing = () => {
         '5 quote analytics projects/month'
       ],
       popular: false,
-      cta: 'Start Free Trial',
+      cta: 'Book a Demo',
       planParam: 'standard'
     },
     {
@@ -37,7 +37,7 @@ const Pricing = () => {
         'Live support & onboarding help'
       ],
       popular: true,
-      cta: 'Start Free Trial',
+      cta: 'Book a Demo',
       planParam: 'pro'
     },
     {
@@ -55,7 +55,7 @@ const Pricing = () => {
         'Custom onboarding & priority support'
       ],
       popular: false,
-      cta: 'Start Free Trial',
+      cta: 'Book a Demo',
       planParam: 'enterprise'
     }
   ];
@@ -299,7 +299,7 @@ const Pricing = () => {
                   }}
                   className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-500 transition-colors font-semibold text-sm border border-gray-500"
                 >
-                  Start Free Trial
+                  Book a Demo
                 </button>
                 <button
                   onClick={() => {
@@ -307,7 +307,7 @@ const Pricing = () => {
                   }}
                   className="bg-gradient-to-r from-blue-600 to-teal-600 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-teal-700 transition-all font-semibold text-sm shadow-lg"
                 >
-                  Start Free Trial
+                  Book a Demo
                 </button>
                 <button
                   onClick={() => {
@@ -315,7 +315,7 @@ const Pricing = () => {
                   }}
                   className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-500 transition-colors font-semibold text-sm border border-gray-500"
                 >
-                  Start Free Trial
+                  Book a Demo
                 </button>
               </div>
             </div>
