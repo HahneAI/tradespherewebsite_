@@ -7,8 +7,8 @@ const Pricing = () => {
   const plans = [
     {
       name: 'Starter',
-      price: '$99',
-      period: 'per month',
+      price: 'Contact Us',
+      period: '',
       description: 'For small teams and solo operators',
       features: [
         'Up to 5 users',
@@ -24,8 +24,8 @@ const Pricing = () => {
     },
     {
       name: 'Growth',
-      price: '$299',
-      period: 'per month',
+      price: 'Contact Us',
+      period: '',
       description: 'For growing field teams and businesses',
       features: [
         'Includes all Starter features',
@@ -223,11 +223,9 @@ const Pricing = () => {
                     <th className="text-left py-4 px-6 font-semibold text-white">Features</th>
                     <th className="text-center py-4 px-6 font-semibold text-white">
                       Starter
-                      <div className="text-sm font-normal text-gray-400 mt-1">$99/month</div>
                     </th>
                     <th className="text-center py-4 px-6 font-semibold text-white relative">
                       Growth
-                      <div className="text-sm font-normal text-gray-400 mt-1">$299/month</div>
                       <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
                         <div className="bg-gradient-to-r from-blue-500 to-teal-500 text-white px-2 py-1 rounded text-xs font-medium">
                           Most Popular
@@ -236,7 +234,6 @@ const Pricing = () => {
                     </th>
                     <th className="text-center py-4 px-6 font-semibold text-white">
                       Enterprise
-                      <div className="text-sm font-normal text-gray-400 mt-1">Contact Us</div>
                     </th>
                   </tr>
                 </thead>
@@ -333,14 +330,6 @@ const Pricing = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
             <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1">
               <h4 className="font-semibold text-white mb-2">
-                Can I change plans anytime?
-              </h4>
-              <p className="text-gray-400">
-                Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.
-              </p>
-            </div>
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1">
-              <h4 className="font-semibold text-white mb-2">
                 Is there a setup fee?
               </h4>
               <p className="text-gray-400">
@@ -352,15 +341,15 @@ const Pricing = () => {
                 What payment methods do you accept?
               </h4>
               <p className="text-gray-400">
-                We accept all major credit cards and offer annual billing discounts.
+                We use secure ACH bank transfers for seamless, hassle-free payments directly from your business account. No credit card fees, no payment processing delays—just simple, reliable billing that works for your business.
               </p>
             </div>
             <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1">
               <h4 className="font-semibold text-white mb-2">
-                Do you offer refunds?
+                Do you offer a money-back guarantee?
               </h4>
               <p className="text-gray-400">
-                Yes, we offer a 30-day money-back guarantee if you're not satisfied.
+                Absolutely! We offer a 30-day money-back guarantee. If you're not completely satisfied with Tradesphere, we'll refund your payment—no questions asked.
               </p>
             </div>
           </div>
